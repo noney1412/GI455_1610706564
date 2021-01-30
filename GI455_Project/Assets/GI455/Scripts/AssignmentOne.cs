@@ -3,6 +3,9 @@
 #PRODUCT# 
 by #COMPANY#
 author: https://github.com/noney1412
+
+NOTE: 
+    - Unity Version (2020.2.1f1), .NET 4.6, C# 8.0
 **/
 #endregion
 
@@ -15,7 +18,7 @@ namespace GI455
 {
     public class AssignmentOne : MonoBehaviour
     {
-        public List<string> infoList; 
+        public List<string> infoList;
 
         public Text info;
         public InputField input;

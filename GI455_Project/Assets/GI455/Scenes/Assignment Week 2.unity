@@ -1222,7 +1222,7 @@ GameObject:
   - component: {fileID: 946256639}
   - component: {fileID: 946256640}
   m_Layer: 0
-  m_Name: WebsocketSharp
+  m_Name: WebSocketSharp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
