@@ -429,10 +429,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoList: []
-  infoTextList: {fileID: 2047041229}
-  inputField: {fileID: 590566708}
-  submitButton: {fileID: 964774019}
-  outputText: {fileID: 2121941784}
+  info: {fileID: 2047041229}
+  input: {fileID: 590566708}
+  submit: {fileID: 964774019}
+  output: {fileID: 2121941784}
 --- !u!4 &582881243
 Transform:
   m_ObjectHideFlags: 0
