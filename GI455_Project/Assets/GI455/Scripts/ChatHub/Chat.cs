@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace GI455.WebSocketSharp
+namespace GI455.ChatSystem
 {
-    public class ConnectionHub : MonoBehaviour
+    public partial class Chat : MonoBehaviour
     {
         private void Start()
         {
