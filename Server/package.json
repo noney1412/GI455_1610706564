@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "generate-avatardata": "node scripts/avatar-to-json"
+    "generate-avatarjson": "node scripts/avatar-to-json"
   },
   "keywords": [],
   "author": "",

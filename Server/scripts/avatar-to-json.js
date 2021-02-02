@@ -1,19 +1,19 @@
 const fs = require("fs");
 
-const avatars = fs.readFileSync(__dirname + "/avatar.csv", { encoding: "utf-8" })
+const csv = fs.readFileSync(__dirname + "/avatars.csv", { encoding: "utf-8" })
 
-const rows = avatars.split("\n")
+const rows = csv.split("\n")
 
-const schema = {
+const avatars = {
     meta: {
         capacity: 0
     },
     data: []
 }
 
-const { meta, data } = schema
+const { meta, data } = avatars
 
-rows.forEach(function split(row) {
+rows.forEach(function each(row) {
     const column = row.split(",")
     const id = column[0]
     const name = column[1].replace(/"|\r/g, '')
@@ -31,8 +31,8 @@ rows.forEach(function split(row) {
 
 meta.capacity = data.length
 
-fs.writeFile("../data/avatar.json", JSON.stringify(schema), function complete() {
-    console.log("Your avatar.json is completed!");
+fs.writeFile(__dirname + "/../data/avatars.json", JSON.stringify(avatars), function complete() {
+    console.log("Your avatars.json is completed!");
 })
 
 
