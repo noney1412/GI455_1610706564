@@ -31,7 +31,7 @@ rows.forEach(function split(row) {
 
 meta.capacity = data.length
 
-fs.writeFile(__dirname + "/avatar.json", JSON.stringify(schema), function complete() {
+fs.writeFile("../data/avatar.json", JSON.stringify(schema), function complete() {
     console.log("Your avatar.json is completed!");
 })
 

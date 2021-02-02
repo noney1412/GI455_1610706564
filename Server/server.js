@@ -1,11 +1,12 @@
-const WebSocket = require('ws');
+const WebSocket = require('ws')
+
 
 const server = new WebSocket.Server({ port: 8080 });
 
 server.on('connection', function connection(socket) {
 
     socket.on("open", function ready() {
-        
+
     })
 
     socket.on("message", function incoming(data) {
