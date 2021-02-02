@@ -1,0 +1,78 @@
+{
+    "data": [
+        {
+            "type": "message",
+            "id": "3",
+            "attributes": {
+                "body": "สวัสดีครับ"
+            },
+            "relationships": {
+                "author": {
+                    "data": {
+                        "type": "people",
+                        "id": "754"
+                    }
+                },
+                "avatar": {
+                    "data": {
+                        "type": "avatar",
+                        "id": "046"
+                    }
+                },
+                "messages": {
+                    "data": [
+                        {
+                            "type": "message",
+                            "id": "1"
+                        },
+                        {
+                            "type": "message",
+                            "id": "2"
+                        },
+                        {
+                            "type": "message",
+                            "id": "3"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "included": [
+        {
+            "type": "people",
+            "id": "754",
+            "attributes": {
+                "name": "Chanon"
+            }
+        },
+        {
+            "type": "avatar",
+            "id": "046",
+            "attributes": {
+                "name": "cowboy-f"
+            }
+        },
+        {
+            "type": "message",
+            "id": "1",
+            "attributes": {
+                "body": "First! Message"
+            }
+        },
+        {
+            "type": "message",
+            "id": "2",
+            "attributes": {
+                "body": "Second! Message"
+            }
+        },
+        {
+            "type": "message",
+            "id": "2",
+            "attributes": {
+                "body": "Third! Message"
+            }
+        }
+    ]
+}
