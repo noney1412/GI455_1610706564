@@ -1,33 +1,48 @@
 const WebSocket = require('ws')
-
+const { Validator } = require("jsonschema")
 
 const server = new WebSocket.Server({ port: 8080 });
 
-server.on('connection', function connection(socket) {
+server.on('connection', function connect(me) {
 
-    socket.on("open", function ready() {
+    me.on("open", function ready() {
+        console.log("Hello");
 
     })
 
-    socket.on("message", function incoming(data) {
-        data = JSON.parse(data)
+    me.on("message", function receive(data) {
         console.log(data)
+        console.log(server.clients.size);
+    })
 
-        // server.clients.forEach((client) => {
-        //     if (client !== socket && client.readyState === WebSocket.OPEN) {
-        //         client.send(JSON.stringify({
-        //             uid: data.uid,
-        //             name: data.name,
-        //             displayImage: data.displayImage,
-        //             message: data.message
-        //         }));
-        //     }
-        // });
-    });
+    // me.on("message", function receive(data) {
+    //     const json = JSON.parse(data)
 
-    socket.on("close", function close(code, reason) {
-        console.log(code)
-        console.log(reason)
+    //     switch (json.data.type) {
+    //         case value:
+
+    //             break;
+
+    //         default:
+    //             break;
+    //     }
+
+    //     server.clients.forEach((client) => {
+    //         if (client !== me && client.readyState === WebSocket.OPEN) {
+    //             client.send(JSON.stringify({
+    //                 uid: data.uid,
+    //                 name: data.name,
+    //                 avatarName: data.avatarName,
+    //                 message: data.message
+    //             }));
+    //         }
+    //     });
+    // });
+
+    me.on("close", function error(code, reason) {
+        console.log("error: " + code)
+        console.log("reason: " + reason)
+        console.log(server.clients.size);
     })
 });
 

@@ -9,7 +9,7 @@
             "relationships": {
                 "author": {
                     "data": {
-                        "type": "people",
+                        "type": "user",
                         "id": "754"
                     }
                 },
@@ -40,7 +40,7 @@
     ],
     "included": [
         {
-            "type": "people",
+            "type": "user",
             "id": "754",
             "attributes": {
                 "name": "Chanon"
