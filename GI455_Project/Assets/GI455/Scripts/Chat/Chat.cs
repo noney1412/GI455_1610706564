@@ -34,15 +34,6 @@ namespace GI455.ChatSystem
 
         private void Start()
         {
-            // try
-            // {
-            //     me = new WebSocket($"ws://{url.text}:{port.text}/");
-            // }
-            // catch (System.Exception e)
-            // {
-            //     report.text = e.Message;
-            // }
-
             connect.onClick.AddListener(Connect);
         }
 
