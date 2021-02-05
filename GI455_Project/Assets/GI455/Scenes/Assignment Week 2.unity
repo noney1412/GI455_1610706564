@@ -549,7 +549,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 53
     m_Alignment: 3
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -752,7 +752,7 @@ GameObject:
   - component: {fileID: 1723196288}
   - component: {fileID: 1723196287}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: Url
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -946,7 +946,7 @@ MonoBehaviour:
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
