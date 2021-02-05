@@ -78,7 +78,7 @@ namespace GI455.ChatSystem
                 {
                     report.alignment = TextAnchor.MiddleCenter;
                     report.text = "<color='green'>connected!</color>";
-                    // connect.interactable = false;
+                    connect.interactable = false;
                     url.interactable = false;
                     port.interactable = false;
                 }
