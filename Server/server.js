@@ -1,18 +1,14 @@
 const WebSocket = require('ws')
-const { Validator } = require("jsonschema")
+const { Validator } = require("jsonschema");
 
 const server = new WebSocket.Server({ port: 8080 });
 
 server.on('connection', function connect(me) {
-
-    me.on("open", function ready() {
-        console.log("Hello");
-
-    })
+    console.log(server.clients.size);
 
     me.on("message", function receive(data) {
         console.log(data)
-        console.log(server.clients.size);
+        console.log(me.url);
     })
 
     // me.on("message", function receive(data) {

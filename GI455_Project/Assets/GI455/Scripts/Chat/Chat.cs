@@ -20,7 +20,7 @@ namespace GI455.ChatSystem
     public class Chat : MonoBehaviour
     {
         [Header("Socket")]
-        public WebSocket me;
+        public static WebSocket me;
 
         [Header("Connection Panel")]
         public InputField url;
@@ -28,14 +28,22 @@ namespace GI455.ChatSystem
         public Button connect;
         public Text report;
 
+        [Header("Chat Panel")]
+        public InputField messageBox;
+        public Button send;
+
         private void Start()
         {
-            connect.onClick.AddListener(Connect);
-        }
+            // try
+            // {
+            //     me = new WebSocket($"ws://{url.text}:{port.text}/");
+            // }
+            // catch (System.Exception e)
+            // {
+            //     report.text = e.Message;
+            // }
 
-        private void OnDestroy()
-        {
-            me?.Close();
+            connect.onClick.AddListener(Connect);
         }
 
         public void Connect()
@@ -46,8 +54,18 @@ namespace GI455.ChatSystem
                 port.text = "8080";
             }
 
-            me = new WebSocket($"ws://{url.text}:{port.text}/");
+            if (me?.ReadyState == WebSocketState.Open)
+                return;
 
+            try
+            {
+                me = new WebSocket($"ws://{url.text}:{port.text}/");
+            }
+            catch (System.Exception e)
+            {
+                report.text = $"<color='red'>{e.Message}</color>";
+                return;
+            }
 
             if (me.ReadyState == WebSocketState.Connecting)
             {
@@ -58,14 +76,13 @@ namespace GI455.ChatSystem
             {
                 if (me.ReadyState == WebSocketState.Open)
                 {
-                    report.text = "connected!";
-                    Debug.Log(me.IsAlive);
-                    Debug.Log(me.WaitTime);
+                    report.alignment = TextAnchor.MiddleCenter;
+                    report.text = "<color='green'>connected!</color>";
+                    // connect.interactable = false;
+                    url.interactable = false;
+                    port.interactable = false;
                 }
             };
-
-            Debug.Log(me.IsAlive);
-            Debug.Log(me.WaitTime);
 
             me.OnMessage += (sender, e) =>
             {
@@ -74,13 +91,22 @@ namespace GI455.ChatSystem
 
             me.OnClose += (sender, e) =>
             {
-                report.text = $"<color='red'>[{e.Code}] {e.Reason}</color>";
+                switch (e.Code)
+                {
+                    case 1006:
+                        report.text = $"<color='red'>[{e.Code}] Connection Failed</color>";
+                        break;
+                }
+
                 Debug.LogWarning($"<color='red'>[{e.Code}] {e.Reason}</color>");
             };
 
             me.Connect();
+        }
 
-            me.Send("เชื่อมต่อ");
+        private void OnDestroy()
+        {
+            me?.Close();
         }
     }
 }
