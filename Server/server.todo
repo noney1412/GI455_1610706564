@@ -1,0 +1,86 @@
+Room:
+    ✔ Unique Name @done(21-02-18 23:09)
+    - ต้องไม่สามารถ JoinRoom ได้เมื่อเจอกรณีต่อไปนี้
+        - ชื่อห้อง ที่ Join ยังไม่ได้ถูกสร้าง
+        - Client ยังค้างอยู่ที่ห้องอื่นที่เคย Join เข้าไป
+    ✔ room { name, clients } @done(21-02-18 23:10)
+    ☐ room ไม่มีคนอยู่ delete ห้อง
+
+Client:
+    ✔ Create Room @done(21-02-18 23:10)
+    ✔ Join Room (Only 1 Room) @done(21-02-18 23:10)
+    ✔ Leave Room @done(21-02-18 23:10)
+    ✔ Send Message @done(21-02-18 23:10)
+
+Links:
+@https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+@https://alligator.io/js/sets-introduction/
+@https://github.com/websockets/ws
+
+Data:
+    ☐ eventName
+        - createRoom
+        - joinRoom
+        - leaveRoom
+        - sendMessage
+    ☐ data
+        - message
+        - error
+            - fail to create room
+
+            client ส่งมา = {
+                eventName: "createRoom",
+                data: "Fantasy Room"
+            }
+    
+            server ส่งกลับ = {
+                eventName: "createRoom",
+                data: "สร้างห้องเรียบร้อย"
+            }
+    
+            server ส่งกลับ = {
+                eventName: "createRoom",
+                data: "สร้างห้องล้มเหลว"
+            }
+    
+            // object = {
+            //     eventName: "joinRoom",
+            //     data: "Fantasy Room"
+            // }
+    
+            // object = {
+            //     eventName: "leaveRoom",
+            //     data: "Action Room"
+            // }
+    
+            // object = {
+            //     eventName: "sendMessage",
+            //     data: "Action Room|สวัสดีครับ"
+            // }
+
+
+``
+ // me.on("message", function receive(data) {
+    //     const json = JSON.parse(data)
+
+    //     switch (json.data.type) {
+    //         case value:
+
+    //             break;
+
+    //         default:
+    //             break;
+    //     }
+
+    //     server.clients.forEach((client) => {
+    //         if (client !== me && client.readyState === WebSocket.OPEN) {
+    //             client.send(JSON.stringify({
+    //                 uid: data.uid,
+    //                 name: data.name,
+    //                 avatarName: data.avatarName,
+    //                 message: data.message
+    //             }));
+    //         }
+    //     });
+    // });
+``

@@ -28,9 +28,8 @@ namespace GI455.ChatSystem
         public Button connect;
         public Text report;
 
-        [Header("Chat Panel")]
-        public InputField messageBox;
-        public Button send;
+        // [Header("Chat Panel")]
+        // public InputField messageBox;
 
         private void Start()
         {
@@ -69,7 +68,6 @@ namespace GI455.ChatSystem
                 {
                     report.alignment = TextAnchor.MiddleCenter;
                     report.text = "<color='green'>connected!</color>";
-                    connect.interactable = false;
                     url.interactable = false;
                     port.interactable = false;
                 }
@@ -77,7 +75,7 @@ namespace GI455.ChatSystem
 
             me.OnMessage += (sender, e) =>
             {
-
+    
             };
 
             me.OnClose += (sender, e) =>
