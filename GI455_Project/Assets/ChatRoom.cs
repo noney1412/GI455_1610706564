@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WebSocketSharp;
+using TMPro;
 
 namespace GI455.Week4
 {
@@ -37,9 +38,15 @@ namespace GI455.Week4
         public Text roomTitle;
         public Button leave;
         public Transform content;
-        public GameObject messageContainerPrefab;
+        public VerticalLayoutGroup verticalContainerPrefab;
         public InputField messageInputField;
         public Button send;
+
+        enum ChatBoxOwner
+        {
+            myself,
+            other
+        }
 
         public struct Message
         {
@@ -84,12 +91,12 @@ namespace GI455.Week4
 
         private void Update()
         {
-            UpdateMessage();
+            UpdateMessageEvent();
         }
 
-        private void UpdateMessage()
+        private void UpdateMessageEvent()
         {
-            if (message.isEmpty() == false)
+            if (!message.isEmpty())
             {
                 switch (message.eventName)
                 {
@@ -109,13 +116,15 @@ namespace GI455.Week4
                             myself.Close();
                         }
                         break;
-                    case "sendMesage":
-
+                    case "sendMessage":
+                        Debug.Log($"create message {message.data}");
+                        InstantiateChatBox(ChatBoxOwner.other, message.data);
                         break;
                 }
 
                 message.Clear();
             }
+
         }
 
         private void OnDestroy()
@@ -160,6 +169,7 @@ namespace GI455.Week4
 
             myself.OnMessage += (sender, e) =>
                         {
+                            Debug.Log(e.Data);
                             message = JsonUtility.FromJson<Message>(e.Data);
                         };
 
@@ -195,6 +205,7 @@ namespace GI455.Week4
             if (myself?.ReadyState == WebSocketState.Open)
             {
                 myself.Close();
+                connectionPanel.gameObject.SetActive(true);
             }
         }
 
@@ -203,6 +214,26 @@ namespace GI455.Week4
             if (myself?.ReadyState == WebSocketState.Open)
             {
                 myself.Send(new Message("sendMessage", roomName.text + "|" + messageInputField.text).ToJson());
+                InstantiateChatBox(ChatBoxOwner.myself, messageInputField.text);
+            }
+        }
+
+        private void InstantiateChatBox(ChatBoxOwner owner, string message)
+        {
+            VerticalLayoutGroup container = Instantiate<VerticalLayoutGroup>(verticalContainerPrefab, content);
+            var chatBox = container.transform.GetChild(0);
+            TextMeshProUGUI tmp = chatBox.GetChild(0).GetComponent<TextMeshProUGUI>();
+
+            if (owner == ChatBoxOwner.myself)
+            {
+                container.childAlignment = TextAnchor.MiddleRight;
+                tmp.text = message;
+            }
+
+            else if (owner == ChatBoxOwner.other)
+            {
+                container.childAlignment = TextAnchor.MiddleLeft;
+                tmp.text = message;
             }
         }
     }

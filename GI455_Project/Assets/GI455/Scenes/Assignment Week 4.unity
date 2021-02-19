@@ -557,8 +557,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -28.4106}
+  m_SizeDelta: {x: 0, y: -6.9615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &341962774
 MonoBehaviour:
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
+  m_ShowMaskGraphic: 0
 --- !u!114 &341962775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,15 +586,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0fd287ff2b4a2624491cd19540241545, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1226,17 +1226,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   url: 127.0.0.1
   port: 8080
-  connectionPanel: {fileID: 0}
-  roomName: {fileID: 0}
-  createRoom: {fileID: 0}
-  joinRoom: {fileID: 0}
-  report: {fileID: 0}
-  roomTitle: {fileID: 0}
-  leave: {fileID: 0}
-  content: {fileID: 0}
-  messageContainerPrefab: {fileID: 0}
-  messageInputField: {fileID: 0}
-  send: {fileID: 0}
+  connectionPanel: {fileID: 1996336005}
+  roomName: {fileID: 1009656188}
+  createRoom: {fileID: 1585886520}
+  joinRoom: {fileID: 1685709123}
+  report: {fileID: 441528330}
+  roomTitle: {fileID: 1761994496}
+  leave: {fileID: 317093924}
+  content: {fileID: 954377577}
+  verticalContainerPrefab: {fileID: 8791646601135288933, guid: 760569e679f2da94cb756bc70557e4ec, type: 3}
+  messageInputField: {fileID: 1326536814}
+  send: {fileID: 790053413}
 --- !u!4 &858157487
 Transform:
   m_ObjectHideFlags: 0
@@ -1379,8 +1379,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.00024414062}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00012207031}
+  m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &954377579
 CanvasRenderer:
@@ -1406,9 +1406,9 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 0
+    m_Bottom: 41
   m_ChildAlignment: 8
-  m_Spacing: 0
+  m_Spacing: 15
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -1587,7 +1587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 84fa5b3faa787004ab81bc4b25a87ad5, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1926,7 +1926,7 @@ GameObject:
   - component: {fileID: 1326536815}
   - component: {fileID: 1326536814}
   m_Layer: 5
-  m_Name: Message
+  m_Name: Message Input Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2193,8 +2193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 32.95703}
-  m_SizeDelta: {x: 0.00012207, y: -65.915}
+  m_AnchoredPosition: {x: 0.000030517578, y: 45.29419}
+  m_SizeDelta: {x: 0.0001, y: -90.5894}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483373192
 MonoBehaviour:
@@ -2246,7 +2246,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2960,7 +2960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1996336004
 RectTransform:
   m_ObjectHideFlags: 0

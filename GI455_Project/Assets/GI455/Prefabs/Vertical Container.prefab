@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -10}
-  m_SizeDelta: {x: 407.8534, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8791646600142058974
 CanvasRenderer:
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 2
   m_VerticalFit: 2
 --- !u!1 &8791646600745932735
 GameObject:
@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 8791646600745932728}
   - component: {fileID: 8791646600745932730}
   - component: {fileID: 8791646600745932729}
+  - component: {fileID: 4108700921578677241}
   m_Layer: 5
   m_Name: Chat Box
   m_TagString: Untagged
@@ -225,6 +226,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4108700921578677241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8791646600745932735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f899c37dc2539d45925473ade1904ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 8791646600142058963}
 --- !u!1 &8791646601135288953
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,8 +251,9 @@ GameObject:
   - component: {fileID: 8791646601135288932}
   - component: {fileID: 8791646601135288955}
   - component: {fileID: 8791646601135288933}
+  - component: {fileID: -7355666947558141031}
   m_Layer: 5
-  m_Name: Chat Box
+  m_Name: Vertical Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,7 +277,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 283, y: -96.6}
-  m_SizeDelta: {x: 566, y: 193.2}
+  m_SizeDelta: {x: 566, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8791646601135288932
 CanvasRenderer:
@@ -328,3 +343,17 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &-7355666947558141031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8791646601135288953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 1
