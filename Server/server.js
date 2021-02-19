@@ -72,7 +72,6 @@ server.on('connection', function connect(myself) {
                         data: "400"
                     }))
                 }
-
                 break;
         }
     })

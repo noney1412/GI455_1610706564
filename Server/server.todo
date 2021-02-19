@@ -26,7 +26,10 @@ Data:
     ☐ data
         - message
         - error
+            - success: 200
+            - error: 400
             - fail to create room
+            - fail to join room
 
             client ส่งมา = {
                 eventName: "createRoom",
@@ -35,12 +38,12 @@ Data:
     
             server ส่งกลับ = {
                 eventName: "createRoom",
-                data: "สร้างห้องเรียบร้อย"
+                data: "สร้างห้องเรียบร้อย" //200
             }
     
             server ส่งกลับ = {
                 eventName: "createRoom",
-                data: "สร้างห้องล้มเหลว"
+                data: "สร้างห้องล้มเหลว" //400
             }
     
             // object = {
