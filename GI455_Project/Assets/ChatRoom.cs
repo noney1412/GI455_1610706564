@@ -42,6 +42,11 @@ namespace GI455.Week4
         public InputField messageInputField;
         public Button send;
 
+        [Header("Popup Panel")]
+        public Transform popupPanel;
+        public Text reportError;
+        public Button ok;
+
         enum ChatBoxOwner
         {
             myself,
@@ -87,6 +92,7 @@ namespace GI455.Week4
             joinRoom.onClick.AddListener(JoinRoom);
             send.onClick.AddListener(SendMessage);
             leave.onClick.AddListener(Leave);
+            ok.onClick.AddListener(ClosePopup);
         }
 
         private void Update()
@@ -105,6 +111,7 @@ namespace GI455.Week4
                             roomTitle.text = roomName.text;
                         else if (message.data == "400")
                         {
+                            ShowPopup("Room is already created");
                             myself.Close();
                         }
                         break;
@@ -113,6 +120,7 @@ namespace GI455.Week4
                             roomTitle.text = roomName.text;
                         else if (message.data == "400")
                         {
+                            ShowPopup("Room is not found");
                             myself.Close();
                         }
                         break;
@@ -190,12 +198,24 @@ namespace GI455.Week4
 
         private void CreateRoom()
         {
+            if (string.IsNullOrEmpty(roomName.text))
+            {
+                report.text = "room name is empty!";
+                return;
+            }
+
             myself.Connect();
             myself.Send(new Message("createRoom", roomName.text).ToJson());
         }
 
         private void JoinRoom()
         {
+            if (string.IsNullOrEmpty(roomName.text))
+            {
+                report.text = "room name is empty!";
+                return;
+            }
+
             myself.Connect();
             myself.Send(new Message("joinRoom", roomName.text).ToJson());
         }
@@ -235,6 +255,17 @@ namespace GI455.Week4
                 container.childAlignment = TextAnchor.MiddleLeft;
                 tmp.text = message;
             }
+        }
+
+        private void ClosePopup()
+        {
+            popupPanel.gameObject.SetActive(false);
+        }
+
+        private void ShowPopup(string message)
+        {
+            popupPanel.gameObject.SetActive(true);
+            reportError.text = message;
         }
     }
 }
