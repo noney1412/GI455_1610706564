@@ -12,7 +12,6 @@ server.on('connection', function connect(myself) {
 
     myself.on("message", function receive(json) {
         const obj = JSON.parse(json)
-        console.log(obj)
 
         // Create room
         switch (obj.eventName) {
@@ -66,16 +65,17 @@ server.on('connection', function connect(myself) {
                     }
                 }
                 break;
-
+                
             // Database
             case "register": {
-                const [username, password, name] = obj.data.split('|');
+                console.log(obj.data);
+                const [userId, password, userName] = obj.data.split('|');
 
                 db.run(`INSERT INTO UserTable
                 VALUES ( $username, $password, $name )`, {
-                    $username: username,
+                    $username: userId,
                     $password: password,
-                    $name: name
+                    $name: userName
                 }
                     , (err) => {
                         if (err) {
@@ -94,12 +94,12 @@ server.on('connection', function connect(myself) {
                 break;
 
             case "login": {
-                const [username, password] = obj.data.split('|');
+                const [userId, password] = obj.data.split('|');
                 db.get(`SELECT Username FROM UserTable WHERE (Username=$username AND Password=$password)`, {
-                    $username: username,
+                    $username: userId,
                     $password: password
                 }, function result(err, row) {
-                    if (err) {
+                    if (err || row == undefined) {
                         myself.send(JSON.stringify({
                             eventName: "login",
                             data: "400"

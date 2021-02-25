@@ -27,12 +27,31 @@ namespace GI455.Week4
         public string port = "8080";
         public Message message;
 
+        [Header("Register Panel")]
+        public TMP_InputField userIdRegister;
+        public TMP_InputField usernameRegister;
+        public TMP_InputField passwordRegister;
+        public TMP_InputField repeatPasswordRegister;
+        public Button register;
+        public Button cancelRegister;
+        public Text reportRegister;
+        public Button reportOk;
+
         [Header("Connection Panel")]
+        public Text usernameConnection;
         public Image connectionPanel;
         public InputField roomName;
         public Button createRoom;
         public Button joinRoom;
         public Text report;
+
+        [Header("Login Panel")]
+        public GameObject loginPanel;
+        public TMP_InputField userIdLogin;
+        public TMP_InputField userPasswordLogin;
+        public Button login;
+        public Button registerLogin;
+
 
         [Header("Chat Panel")]
         public Text roomTitle;
@@ -93,6 +112,13 @@ namespace GI455.Week4
             send.onClick.AddListener(SendMessage);
             leave.onClick.AddListener(Leave);
             ok.onClick.AddListener(ClosePopup);
+            login.onClick.AddListener(Login);
+            registerLogin.onClick.AddListener(ShowupRegisterPanel);
+
+            // Register Panel
+            register.onClick.AddListener(Register);
+            cancelRegister.onClick.AddListener(CancelRegister);
+            reportOk.onClick.AddListener(CloseRegisterPopup);
         }
 
         private void Update()
@@ -100,6 +126,9 @@ namespace GI455.Week4
             UpdateMessageEvent();
         }
 
+        /// <summary>
+        /// Update Message from websocket
+        /// </summary>
         private void UpdateMessageEvent()
         {
             if (!message.isEmpty())
@@ -108,7 +137,10 @@ namespace GI455.Week4
                 {
                     case "createRoom":
                         if (message.data == "200")
+                        {
                             roomTitle.text = roomName.text;
+                            joinRoom.transform.parent.gameObject.SetActive(false);
+                        }
                         else if (message.data == "400")
                         {
                             ShowPopup("Room is already created");
@@ -117,7 +149,10 @@ namespace GI455.Week4
                         break;
                     case "joinRoom":
                         if (message.data == "200")
+                        {
                             roomTitle.text = roomName.text;
+                            joinRoom.transform.parent.gameObject.SetActive(false);
+                        }
                         else if (message.data == "400")
                         {
                             ShowPopup("Room is not found");
@@ -127,6 +162,31 @@ namespace GI455.Week4
                     case "sendMessage":
                         Debug.Log($"create message {message.data}");
                         InstantiateChatBox(ChatBoxOwner.other, message.data);
+                        break;
+
+                    case "register":
+                        if (message.data == "200")
+                        {
+                            register.transform.parent.gameObject.SetActive(false);
+                            ShowReportPopup($"<color='green'>Complete Register!</color>");
+                        }
+                        else if (message.data == "400")
+                        {
+                            register.transform.parent.gameObject.SetActive(false);
+                            ShowReportPopup($"<color='red'>Complete Register!</color>");
+                        }
+                        break;
+
+                    case "login":
+                        if (message.data == "200")
+                        {
+                            usernameConnection.text = userIdLogin.text;
+                            HideLoginPanel();
+                        }
+                        else if (message.data == "400")
+                        {
+                            ShowReportPopup($"<color='red'>login failed</color>");
+                        }
                         break;
                 }
 
@@ -169,10 +229,7 @@ namespace GI455.Week4
 
             myself.OnOpen += (sender, e) =>
                         {
-                            if (myself.ReadyState == WebSocketState.Open)
-                            {
-                                connectionPanel.gameObject.SetActive(false);
-                            }
+
                         };
 
             myself.OnMessage += (sender, e) =>
@@ -196,16 +253,59 @@ namespace GI455.Week4
             };
         }
 
+        private void CancelRegister()
+        {
+            cancelRegister.transform.parent.gameObject.SetActive(false);
+        }
+
+        private void ShowupRegisterPanel()
+        {
+            register.transform.parent.gameObject.SetActive(true);
+        }
+
+        private void Login()
+        {
+            if (string.IsNullOrEmpty(userIdLogin.text + userPasswordLogin.text))
+                ShowReportPopup("the field can not empty!!!");
+
+            if (!string.IsNullOrEmpty(userIdLogin.text + userPasswordLogin.text))
+            {
+                myself.Connect();
+                if (myself.ReadyState == WebSocketState.Open)
+                {
+                    myself.Send(new Message("login", userIdLogin.text + "|" + passwordRegister.text).ToJson());
+                }
+            }
+
+        }
+
+        private void Register()
+        {
+            if (!string.IsNullOrEmpty(userIdRegister.text + usernameRegister.text + passwordRegister.text + repeatPasswordRegister.text) && passwordRegister.text == repeatPasswordRegister.text)
+            {
+                myself.Connect();
+                if (myself.ReadyState == WebSocketState.Open)
+                {
+                    myself.Send(new Message(
+                        "register",
+                        userIdRegister.text
+                        + "|"
+                        + passwordRegister.text
+                        + "|"
+                        + usernameRegister.text).ToJson());
+                }
+            }
+        }
+
         private void CreateRoom()
         {
             if (string.IsNullOrEmpty(roomName.text))
             {
                 report.text = "room name is empty!";
-                return;
             }
 
-            myself.Connect();
-            myself.Send(new Message("createRoom", roomName.text).ToJson());
+            if (myself.ReadyState == WebSocketState.Open)
+                myself.Send(new Message("createRoom", roomName.text).ToJson());
         }
 
         private void JoinRoom()
@@ -213,11 +313,10 @@ namespace GI455.Week4
             if (string.IsNullOrEmpty(roomName.text))
             {
                 report.text = "room name is empty!";
-                return;
             }
 
-            myself.Connect();
-            myself.Send(new Message("joinRoom", roomName.text).ToJson());
+            if (myself.ReadyState == WebSocketState.Open)
+                myself.Send(new Message("joinRoom", roomName.text).ToJson());
         }
 
         private void Leave()
@@ -266,6 +365,22 @@ namespace GI455.Week4
         {
             popupPanel.gameObject.SetActive(true);
             reportError.text = message;
+        }
+
+        private void CloseRegisterPopup()
+        {
+            reportRegister.transform.parent.gameObject.SetActive(false);
+        }
+
+        private void ShowReportPopup(string message)
+        {
+            reportRegister.transform.parent.gameObject.SetActive(true);
+            reportRegister.text = message;
+        }
+
+        private void HideLoginPanel()
+        {
+            loginPanel.SetActive(false);
         }
     }
 }

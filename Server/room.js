@@ -4,7 +4,9 @@ const rooms = new Map()
 
 // console.log(rooms.get("Room39"));
 
-rooms.set("Room39", new Set([1, 2, 3, 4, 5, "myself"]))
+const myself = {}
+
+rooms.set("Room39", new Set([myself]))
 
 console.log(rooms.get("Room39").has("myself"))
 
@@ -17,3 +19,4 @@ rooms.get("Room39").forEach(client => {
         console.log("hello");
     }
 })
+
