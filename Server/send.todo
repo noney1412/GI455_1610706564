@@ -1,0 +1,8 @@
+Client:
+    ☐ Send
+    ☐ Render Own Message
+    When Message Recieved:
+        ☐ Display Other Message
+    
+        
+

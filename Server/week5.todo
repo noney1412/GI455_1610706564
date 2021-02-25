@@ -1,0 +1,15 @@
+[Server]:
+☐ เพิ่ม Request "Register", "Login" เข้าไปที่ฝั่ง Server
+☐ Request "Login" ให้นำ UseID และ Password ที่ได้มาจาก Client นำมาเช็คดูว่ามีใน Database หรือไม่ ถ้ามีส่ง Callback กลับบอกว่า Client ว่า Login สำเร็จ ถ้าหากไม่มีส่ง Callback ว่า Login ไม่สำเร็จ
+☐ Request "Register" ให้นำ UserID, Password และ Name ที่ได้มาจาก Client นำมาบันทึกลงใน Database ถ้าหากบันทึกได้ไม่มี Error ให้ส่ง Callback กลับไปบอก Client ว่า Register สำเร็จ แต่ถ้ามี Error ให้ส่ง Callback กลับไปบอก Client ว่า Register ไม่สำเร็จ
+☐ เพิ่ม Request "Message" สำหรับ Boardcast Message ภายในห้องที่ User ส่งข้อความ
+
+[Client]:
+☐ ใช้ Application เดิมที่เคยทำส่งตอน Week4 นำมาทำต่อโดยเพิ่มฟีเจอร์ต่อไปนี้
+☐ เพิ่มส่วนที่จัดการ Callback เกี่ยวกับ Register, Login, Message ที่ฝั่ง Client
+☐ หลังจากที่กด Connect ให้แสดงหน้าต่าง Login ก่อน (ของเดิมจะหลังจาก Connect จะโดนย้ายไป Lobby)
+☐ หน้าต่าง Login ให้มี ช่องรับ UserID, Password และปุ่ม Login, Register(กดแล้วจะไปหน้า Register)
+☐ หน้าต่าง Register ให้มีช่องรับ Name, UserID, Password, Re-Password และปุ่ม Register
+☐ ห้ามให้มี InputField อันไหนไม่ใส่ข้อมูล หากมี InputField ไหนไม่มีข้อมูลให้แสดง Popup ว่ายังใส่ข้อมูลไม่ครบ
+☐ เมื่อ Register สำเร็จให้กลับมาหน้า Login
+☐ เมื่อ Login สำเร็จให้ไปที่หน้า Lobby (หน้าที่มี CreateRoom กับ JoinRoom)

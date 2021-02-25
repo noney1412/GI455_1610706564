@@ -1,0 +1,17 @@
+SQL:
+    ☐ Query Lang ( CRUD ) create read update delete
+        ☐ Get (read) SELECT
+        ☐ Post (create) 
+        ☐ Put (update)
+        ☐ Delete (delete)
+    ☐ Structure
+        DatabaseName:
+            ☐ TableName: User
+                ☐ Username, Age, Money
+                ☐  "Chanon", 18, 2000
+            ☐ TableName: Province
+                ☐ Name, Position
+    ☐ Query
+        ☐ SELECT column FROM table
+        ☐ get Username,Age,Money from UserTable where Username == "Chanon"
+    
