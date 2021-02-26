@@ -38,19 +38,10 @@ public class RegisterPanel : MonoBehaviour
     private void OnEnable()
     {
         cancel.onClick.AddListener(ClosePanel);
-        SetPasswordFieldInteractive(false);
+        SetPasswordSectionActive(false);
 
         Report("Please, fill in your username and name");
-
-        username.onValueChanged.AddListener(ValidateUsernameSection);
-        name.onValueChanged.AddListener(ValidateUsernameSection);
-
-        username.onEndEdit.AddListener(ValidateUsername);
-        name.onEndEdit.AddListener(ValidateName);
-
-        password.onEndEdit.AddListener(ValidatePassword);
-        repeatPassword.onValueChanged.AddListener(ValidatePassword);
-        repeatPassword.onEndEdit.AddListener(ValidatePassword);
+        UsernameSectionEnable();
     }
 
     private void OnDisable()
@@ -58,16 +49,6 @@ public class RegisterPanel : MonoBehaviour
         ClearInput();
         report.text = string.Empty;
         cancel.onClick.RemoveListener(ClosePanel);
-
-        username.onValueChanged.RemoveListener(ValidateUsernameSection);
-        name.onValueChanged.RemoveListener(ValidateUsernameSection);
-
-        username.onEndEdit.RemoveListener(ValidateUsername);
-        name.onEndEdit.RemoveListener(ValidateName);
-
-        password.onEndEdit.RemoveListener(ValidatePassword);
-        repeatPassword.onValueChanged.RemoveListener(ValidatePassword);
-        repeatPassword.onEndEdit.RemoveListener(ValidatePassword);
     }
 
     public void OpenPanel()
@@ -83,55 +64,76 @@ public class RegisterPanel : MonoBehaviour
     /// <section>
     /// Username
     /// </section>
-
-    public bool IsNameSectionEmpty()
+    private void UsernameSectionEnable()
     {
-        return (string.IsNullOrWhiteSpace(name.text) == string.IsNullOrWhiteSpace(username.text));
+        username.onValueChanged.AddListener(WhenUsernameIsTyping);
+        name.onValueChanged.AddListener(WhenNameIsTyping);
+
+        username.onEndEdit.AddListener(OnUserNameEndEdited);
+        name.onEndEdit.AddListener(OnNameEndEdited);
     }
 
-    public void ActivatePasswordSeciton(string value)
+    public bool IsEachUserNameSectionEmpty()
+        => (string.IsNullOrWhiteSpace(username.text) || string.IsNullOrWhiteSpace(name.text));
+
+    public bool IsAllUserNameSectionEmpty()
+        => (string.IsNullOrWhiteSpace(username.text) == string.IsNullOrWhiteSpace(name.text));
+
+    public void ShouldActivatePasswordSeciton()
     {
-        if (IsNameSectionEmpty() is true)
+        if (IsEachUserNameSectionEmpty() is true)
+        {
+            if (IsAllUserNameSectionEmpty())
+                ClearPasswordSectionInputField();
+
+            SetPasswordSectionActive(false);
             return;
+        }
 
         SetPasswordSectionActive(true);
     }
 
-    public void ValidateUsernameSection(string value)
+    public void WhenUsernameIsTyping(string value)
     {
-        if (!IsNameSectionEmpty())
-        {
-            Report("Please, fill in your username and name");
-            SetPasswordFieldInteractive(false);
-        }
-        else
-        {
-            SetPasswordFieldInteractive(true);
-        }
+        username.image.color = username.colors.normalColor;
+        Report("Typing...");
+
+        ShouldActivatePasswordSeciton();
     }
 
-    public void ValidateUsername(string value)
+    public void WhenNameIsTyping(string value)
     {
-        if (string.IsNullOrWhiteSpace(username.text))
+        name.image.color = name.colors.normalColor;
+        Report("Typing...");
+
+        ShouldActivatePasswordSeciton();
+    }
+
+    public void OnUserNameEndEdited(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
         {
             SetInputFieldNotValid(username);
+            Report("Please, fill in your username");
             return;
         }
 
+        Report(string.Empty);
         SetInputFieldValid(username);
     }
 
-    public void ValidateName(string value)
+    public void OnNameEndEdited(string value)
     {
-        if (string.IsNullOrWhiteSpace(name.text))
+        if (string.IsNullOrWhiteSpace(value))
         {
             SetInputFieldNotValid(name);
+            Report("Please, fill in your name");
             return;
         }
 
+        Report(string.Empty);
         SetInputFieldValid(name);
     }
-
 
     /// <section>
     /// Password
@@ -141,6 +143,11 @@ public class RegisterPanel : MonoBehaviour
         password.interactable = repeatPassword.interactable = active;
     }
 
+    public void ClearPasswordSectionInputField()
+    {
+        password.text = repeatPassword.text = string.Empty;
+    }
+
     public bool IsPasswordMatched()
     {
         return string.IsNullOrEmpty(password.text + repeatPassword.text) ? false : password.text == repeatPassword.text;
@@ -148,7 +155,7 @@ public class RegisterPanel : MonoBehaviour
 
     public void ValidatePassword(string value)
     {
-        if (!IsNameSectionEmpty())
+        if (!IsEachUserNameSectionEmpty())
         {
             password.text = repeatPassword.text = string.Empty;
             return;
