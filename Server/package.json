@@ -15,5 +15,8 @@
     "jsonschema": "^1.4.0",
     "sqlite3": "^5.0.2",
     "ws": "^7.4.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0"
   }
 }

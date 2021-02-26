@@ -48,6 +48,7 @@ server.on('connection', function connect(myself) {
                     }))
                 }
                 break;
+
             case "sendMessage":
                 {
                     const [roomName, message] = obj.data.split("|")
@@ -65,7 +66,7 @@ server.on('connection', function connect(myself) {
                     }
                 }
                 break;
-                
+
             // Database
             case "register": {
                 console.log(obj.data);
