@@ -22,17 +22,22 @@ public class ExpandableText : MonoBehaviour
     private ContentSizeFitter _contentSize;
     private RectTransform _rect;
 
-    public string Text { get => _message.text; set { _message.text = value; } }
+    public string Text { get => _message.text; set => _message.text = value; }
     public Vector2 SizeDelta { get => _rect.sizeDelta; set => _rect.sizeDelta = value; }
     public bool HasSizeChanged { get => _rect.hasChanged; }
+    public int maxCharacterPerLine { get; private set; }
 
     [Header("Custom")]
     [Range(0, 413.0f)]
-    float preferredWidth;
+    [SerializeField] float _preferredWidth;
+
+
+    [SerializeField] bool _isResizeable;
 
     private void Start()
     {
-        preferredWidth = 413.0f;
+        _preferredWidth = 413.0f;
+        maxCharacterPerLine = 25;
 
         _message = GetComponent<TextMeshProUGUI>();
         _layout = GetComponent<LayoutElement>();
@@ -42,9 +47,18 @@ public class ExpandableText : MonoBehaviour
 
     private void OnGUI()
     {
-        if (_rect.hasChanged && _rect.sizeDelta.x > preferredWidth)
+        if (Text.Length < 25)
+            _isResizeable = true;
+
+        if (_rect.hasChanged && _rect.sizeDelta.x > _preferredWidth)
         {
-            _layout.preferredWidth = preferredWidth;
+            _layout.preferredWidth = _preferredWidth;
+            _isResizeable = false;
+        }
+
+        if (_isResizeable)
+        {
+            _layout.preferredWidth = -1.0f;
         }
     }
 }

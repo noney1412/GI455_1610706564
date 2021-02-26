@@ -16,8 +16,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <Todo>
-/// 1. custom massage box margin
-/// 2. custom message up container margin
+/// 1. custom massage box margin.
+/// 2. custom message up container margin.
+/// 3. alight the message whether left or right.
 /// </Todo>
 public class MessageUpContainer : MonoBehaviour
 {
@@ -29,9 +30,11 @@ public class MessageUpContainer : MonoBehaviour
     public Vector2 messageBoxMargin;
     public Vector2 containerMargin;
 
+    private VerticalLayoutGroup _layout;
 
     private void Start()
     {
+        _layout = GetComponent<VerticalLayoutGroup>();
     }
 
     private void OnGUI()
@@ -41,5 +44,15 @@ public class MessageUpContainer : MonoBehaviour
             messageBox.sizeDelta = message.SizeDelta + messageBoxMargin;
             GetComponent<RectTransform>().sizeDelta = messageBox.sizeDelta + containerMargin;
         }
+    }
+
+    public void AlignLeft()
+    {
+        _layout.childAlignment = TextAnchor.UpperLeft;
+    }
+
+    public void AlignRight()
+    {
+        _layout.childAlignment = TextAnchor.UpperRight;
     }
 }
