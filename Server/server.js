@@ -7,19 +7,16 @@ const db = new sqlite3.Database("./database/User.db");
 let rooms = new Map()
 
 server.on('connection', function connect(myself) {
-    console.log(server.clients.size);
     myself["my_room"] = ""
 
     myself.on("message", function receive(json) {
         const obj = JSON.parse(json)
 
-        // Create room
         switch (obj.eventName) {
             case "createRoom":
                 if (!rooms.has(obj.data)) {
                     rooms.set(obj.data, { clients: new Set([myself]) })
                     myself["my_room"] = obj.data
-                    console.log(`on create room: ${myself["my_room"]} ${rooms.get(obj.data).clients.size}`)
                     myself.send(JSON.stringify({
                         eventName: "createRoom",
                         data: "200"
@@ -36,7 +33,6 @@ server.on('connection', function connect(myself) {
                 if (rooms.has(obj.data)) {
                     rooms.get(obj.data).clients.add(myself)
                     myself["my_room"] = obj.data
-                    console.log(`on create room: ${myself["my_room"]} ${rooms.get(obj.data).clients.size}`)
                     myself.send(JSON.stringify({
                         eventName: "joinRoom",
                         data: "200"
@@ -53,7 +49,6 @@ server.on('connection', function connect(myself) {
                 {
                     const [roomName, message] = obj.data.split("|")
                     if (rooms.has(roomName)) {
-                        console.log(`on send: ${myself["my_room"]} ${rooms.get(roomName).clients.size}`)
                         rooms.get(roomName).clients.forEach(function each(client) {
                             console.log(client == myself)
                             if (client != myself && client.readyState == WebSocket.OPEN) {
@@ -69,7 +64,6 @@ server.on('connection', function connect(myself) {
 
             // Database
             case "register": {
-                console.log(obj.data);
                 const [userId, password, userName] = obj.data.split('|');
 
                 db.run(`INSERT INTO UserTable
@@ -121,7 +115,7 @@ server.on('connection', function connect(myself) {
     myself.on("close", function error(code, reason) {
         console.log("error: " + code)
         console.log("reason: " + reason)
-        console.log(server.clients.size);
+        console.log("clients" + server.clients.size);
 
         let my_room = ""
         if (Object.prototype.hasOwnProperty.call(myself, "my_room")) {
