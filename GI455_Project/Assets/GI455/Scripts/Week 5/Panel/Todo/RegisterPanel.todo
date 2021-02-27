@@ -1,0 +1,34 @@
+References:
+    ☐ Title: Text
+    ✔ Username: InputField @done(21-02-27 05:27)
+    ✔ Name: InputField @done(21-02-27 05:27)
+    ✔ Password: InputField @done(21-02-27 05:27)
+    ✔ RepeatPassword: InputField @done(21-02-27 05:27)
+    ✔ Register: Button @done(21-02-27 05:27)
+    ✔ Report: Text @done(21-02-27 05:27)
+    ✔ Cancel: Button @done(21-02-27 05:27)
+
+Control Behaviour:
+    State:
+        ☐ Enable
+        ☐ Disable
+    InputField State:
+        ☐ Error
+        ☐ Valid
+        ☐ Normal
+    ✔ Enable Identification Section [username, name]: InputField @done(21-02-27 05:27)
+        ✔ OnValueChanged @done(21-02-27 05:27)
+            ✔ (InputField turn normal state on typing) .image.color = normal @done(21-02-27 05:26)
+            ✔ (Report typing... to user) @done(21-02-27 05:47)
+            ✔ (Should Enable `Secret Section` when all fields are completely filled) @done(21-02-27 05:29)
+        ✔ OnEndEdited @done(21-02-27 06:00)
+            ✔ (InputField whether turn "green" `(valid)` when the form is filled or turn "red" `(error)` when it's not) @done(21-02-27 05:31)
+            ✔ (Report please, fill in your ... when one of the forms is still empty) @done(21-02-27 05:34)
+            ✔ (Clear Report when one of forms is filled) @done(21-02-27 05:49)
+    ☐ Enable Secret Section [password, repeatPassword]: InputField
+        ☐ Set InputField.InputType.Password (Encode password to ***)
+        ☐ OnValueChanged
+            ☐ (InputField turn normal state on typing)
+            ☐ (Report typing... to user)
+            ☐ (`IF PASSWORD IS MATCHED` report to user and turn InputField to `(valid)` state)
+            ☐ (`IF PASSWORD IS NOT MATCHED` report "Password is not matched" and turn InputField to `(error)` state)

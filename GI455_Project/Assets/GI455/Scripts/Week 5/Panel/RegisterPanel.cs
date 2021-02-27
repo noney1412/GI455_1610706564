@@ -15,10 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <todo>
-/// 1. Clear InputField on disable AND when Register failed
-/// 2. Open Panel AND  Close Panel
-/// 3. Check Field Emptiness
-/// 4. Password Matching
+/// todo/RegisterPanel.todo
 /// </todo>
 public class RegisterPanel : MonoBehaviour
 {
@@ -35,20 +32,49 @@ public class RegisterPanel : MonoBehaviour
     [Header("Report")]
     public Text report;
 
+    public enum InputFieldState
+    {
+        valid,
+        error,
+        normal
+    }
+
+    public enum ReportState
+    {
+        empty,
+        typing
+    }
+
+    private void OnGUI()
+    {
+        if (IsReadyToRegister())
+        {
+            SetRegisterActive(true);
+            return;
+        }
+
+        SetRegisterActive(false);
+    }
+
     private void OnEnable()
     {
         cancel.onClick.AddListener(ClosePanel);
-        SetPasswordSectionActive(false);
+        SetSecretSectionActive(false);
 
         Report("Please, fill in your username and name");
-        UsernameSectionEnable();
+        OnIdentificationSectionEnable();
+        OnSecretSectionEnable();
+        OnRegisterControlsEnable();
     }
 
     private void OnDisable()
     {
-        ClearInput();
+        ClearAllInputFields();
         report.text = string.Empty;
         cancel.onClick.RemoveListener(ClosePanel);
+
+        OnIdentificationSectionDisable();
+        OnSecretSectionDisable();
     }
 
     public void OpenPanel()
@@ -62,83 +88,165 @@ public class RegisterPanel : MonoBehaviour
     }
 
     /// <section>
-    /// Username
+    /// Identification [username, inputfield]: InputField
     /// </section>
-    private void UsernameSectionEnable()
+    private void OnIdentificationSectionEnable()
     {
-        username.onValueChanged.AddListener(WhenUsernameIsTyping);
-        name.onValueChanged.AddListener(WhenNameIsTyping);
+        username.onValueChanged.AddListener(OnUsernameValueChanged);
+        name.onValueChanged.AddListener(OnNameValueChanged);
 
         username.onEndEdit.AddListener(OnUserNameEndEdited);
         name.onEndEdit.AddListener(OnNameEndEdited);
     }
 
-    public bool IsEachUserNameSectionEmpty()
-        => (string.IsNullOrWhiteSpace(username.text) || string.IsNullOrWhiteSpace(name.text));
-
-    public bool IsAllUserNameSectionEmpty()
-        => (string.IsNullOrWhiteSpace(username.text) == string.IsNullOrWhiteSpace(name.text));
-
-    public void ShouldActivatePasswordSeciton()
+    private void OnIdentificationSectionDisable()
     {
-        if (IsEachUserNameSectionEmpty() is true)
-        {
-            if (IsAllUserNameSectionEmpty())
-                ClearPasswordSectionInputField();
+        username.onValueChanged.RemoveListener(OnUsernameValueChanged);
+        name.onValueChanged.RemoveListener(OnNameValueChanged);
 
-            SetPasswordSectionActive(false);
-            return;
-        }
-
-        SetPasswordSectionActive(true);
+        username.onEndEdit.RemoveListener(OnUserNameEndEdited);
+        name.onEndEdit.RemoveListener(OnNameEndEdited);
     }
 
-    public void WhenUsernameIsTyping(string value)
+    private void OnUsernameValueChanged(string value)
     {
-        username.image.color = username.colors.normalColor;
-        Report("Typing...");
+        ChangeInputFieldColorByState(name, InputFieldState.normal);
+        Report(ReportState.typing);
 
         ShouldActivatePasswordSeciton();
     }
 
-    public void WhenNameIsTyping(string value)
+    private void OnNameValueChanged(string value)
     {
-        name.image.color = name.colors.normalColor;
-        Report("Typing...");
+        ChangeInputFieldColorByState(name, InputFieldState.normal);
+        Report(ReportState.typing);
 
         ShouldActivatePasswordSeciton();
     }
 
-    public void OnUserNameEndEdited(string value)
+    private void OnUserNameEndEdited(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value) is true)
         {
-            SetInputFieldNotValid(username);
+            ChangeInputFieldColorByState(username, InputFieldState.normal);
             Report("Please, fill in your username");
             return;
         }
 
         Report(string.Empty);
-        SetInputFieldValid(username);
+        ChangeInputFieldColorByState(username, InputFieldState.valid);
     }
 
-    public void OnNameEndEdited(string value)
+    private void OnNameEndEdited(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value) is true)
         {
-            SetInputFieldNotValid(name);
+            ChangeInputFieldColorByState(name, InputFieldState.normal);
             Report("Please, fill in your name");
             return;
         }
 
         Report(string.Empty);
-        SetInputFieldValid(name);
+        ChangeInputFieldColorByState(name, InputFieldState.valid);
     }
 
+    private void ShouldActivatePasswordSeciton()
+    {
+        if (IsEachIdentificationFieldEmpty() is true)
+        {
+            if (IsAllIdentificationFieldsEmpty())
+                ClearPasswordSectionInputField();
+
+            SetSecretSectionActive(false);
+            return;
+        }
+
+        SetSecretSectionActive(true);
+    }
+
+    public bool IsEachIdentificationFieldEmpty()
+        => (string.IsNullOrWhiteSpace(username.text) || string.IsNullOrWhiteSpace(name.text)) is true;
+
+    public bool IsAllIdentificationFieldsEmpty()
+        => (string.IsNullOrWhiteSpace(username.text) == string.IsNullOrWhiteSpace(name.text)) is true;
+
+
     /// <section>
-    /// Password
+    /// Secret
     /// </section>
-    public void SetPasswordSectionActive(bool active)
+    private void OnSecretSectionEnable()
+    {
+        password.onValueChanged.AddListener(OnPasswordValueChanged);
+        password.onEndEdit.AddListener(OnPasswordEndEdited);
+
+        repeatPassword.onValueChanged.AddListener(OnRepeatPasswordValueChanged);
+        repeatPassword.onEndEdit.AddListener(OnRepeatPasswordEndEdited);
+    }
+
+    private void OnSecretSectionDisable()
+    {
+        password.onValueChanged.RemoveListener(OnPasswordValueChanged);
+        password.onEndEdit.RemoveListener(OnPasswordEndEdited);
+
+        repeatPassword.onValueChanged.RemoveListener(OnRepeatPasswordValueChanged);
+        repeatPassword.onEndEdit.RemoveListener(OnPasswordEndEdited);
+    }
+
+    private void OnPasswordValueChanged(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value) is true)
+        {
+            ChangeInputFieldColorByState(password, InputFieldState.normal);
+            Report("Please fill in your password");
+            return;
+        }
+
+        ChangeInputFieldColorByState(password, InputFieldState.normal);
+        Report(ReportState.typing);
+    }
+
+    private void OnPasswordEndEdited(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value) is true)
+        {
+            ChangeInputFieldColorByState(password, InputFieldState.normal);
+            Report("Please fill in your password");
+            return;
+        }
+
+        ChangeInputFieldColorByState(password, InputFieldState.valid);
+        Report(ReportState.empty);
+    }
+
+    private void OnRepeatPasswordValueChanged(string value)
+    {
+        ChangeInputFieldColorByState(repeatPassword, InputFieldState.normal);
+        Report(ReportState.typing);
+
+        if (IsPasswordMatched() is true)
+        {
+            ChangeInputFieldColorByState(repeatPassword, InputFieldState.valid);
+            Report("Your password now match!");
+            return;
+        }
+
+        Report("Please make sure your password mathch!");
+    }
+
+    private void OnRepeatPasswordEndEdited(string value)
+    {
+        if (IsPasswordMatched() is true)
+        {
+            ChangeInputFieldColorByState(repeatPassword, InputFieldState.valid);
+            Report("Your are ready to register");
+
+            return;
+        }
+
+        Report("Please make sure your password mathch!");
+    }
+
+    public void SetSecretSectionActive(bool active)
     {
         password.interactable = repeatPassword.interactable = active;
     }
@@ -149,41 +257,30 @@ public class RegisterPanel : MonoBehaviour
     }
 
     public bool IsPasswordMatched()
+        => string.IsNullOrEmpty(password.text + repeatPassword.text) is true ? false : password.text == repeatPassword.text;
+
+    /// <section>
+    /// Register Controls [register,cancel] : Button
+    /// </section>
+    private void OnRegisterControlsEnable()
     {
-        return string.IsNullOrEmpty(password.text + repeatPassword.text) ? false : password.text == repeatPassword.text;
+        SetRegisterActive(false);
     }
 
-    public void ValidatePassword(string value)
+    public void SetRegisterActive(bool active)
     {
-        if (!IsEachUserNameSectionEmpty())
-        {
-            password.text = repeatPassword.text = string.Empty;
-            return;
-        }
+        register.interactable = active;
+    }
 
-        if (!string.IsNullOrWhiteSpace(password.text))
-        {
-            SetInputFieldValid(password);
-        }
-
-        if (IsPasswordMatched())
-        {
-            Report("string.Empty");
-            SetInputFieldValid(password);
-            SetInputFieldValid(repeatPassword);
-        }
-        else
-        {
-            // highlight #FFC4C4
-            Report("<color='#C02E3E'>Password is not matched</color>");
-            SetInputFieldNotValid(repeatPassword);
-        }
+    private bool IsReadyToRegister()
+    {
+        return IsAllFieldsEmpty() is false && IsPasswordMatched() is true;
     }
 
     /// <section>
     /// Utilities 
     /// </section>
-    public void ClearInput()
+    public void ClearAllInputFields()
     {
         username.text = name.text = password.text = repeatPassword.text = string.Empty;
     }
@@ -193,32 +290,44 @@ public class RegisterPanel : MonoBehaviour
         return string.IsNullOrEmpty(username.text + name.text + password.text + repeatPassword.text + string.Empty);
     }
 
+    public void Report(ReportState state)
+    {
+        switch (state)
+        {
+            case ReportState.empty:
+                Report(string.Empty);
+                break;
+            case ReportState.typing:
+                Report("typing...");
+                break;
+        }
+    }
+
     public void Report(string message)
     {
         report.text = message;
     }
 
-    public void SetInputFieldValid(InputField field)
+    public void ChangeInputFieldColorByState(InputField field, InputFieldState state)
     {
-        if (ColorUtility.TryParseHtmlString("#B5FFC3", out var good))
-            field.image.color = good;
-    }
-
-    public void SetInputFieldNotValid(InputField field)
-    {
-        if (ColorUtility.TryParseHtmlString("#FFC4C4", out var bad))
-            field.image.color = bad;
+        switch (state)
+        {
+            case InputFieldState.error:
+                if (ColorUtility.TryParseHtmlString("#FFC4C4", out var bad))
+                    field.image.color = bad;
+                break;
+            case InputFieldState.valid:
+                if (ColorUtility.TryParseHtmlString("#B5FFC3", out var good))
+                    field.image.color = good;
+                break;
+            case InputFieldState.normal:
+                field.image.color = field.colors.normalColor;
+                break;
+        }
     }
 
     public void SetInteractiveOfAllInputFields(bool isInteractable)
     {
         username.interactable = name.interactable = password.interactable = repeatPassword.interactable = isInteractable;
     }
-
-    public void SetPasswordFieldInteractive(bool isIntaractable)
-    {
-        password.interactable = isIntaractable;
-        repeatPassword.interactable = isIntaractable;
-    }
-
 }
